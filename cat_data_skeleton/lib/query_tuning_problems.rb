@@ -52,7 +52,21 @@ def cats_and_toys_alike
   # Order alphabetically by cat name
   # Get your overall cost lower than: 590
   execute(<<-SQL)
-
+  SELECT 
+    cats.name
+  FROM
+    cats
+  JOIN
+    cattoys
+  ON 
+    cattoys.cat_id = cats.id
+  JOIN 
+    toys 
+  ON
+    toys.id = cattoys.toy_id  
+  WHERE
+    cats.name = 'Blue' AND toys.name = 'Blue'
+  ORDER BY cats.name;
   SQL
 end
 
@@ -61,6 +75,34 @@ def toyless_blue_cats
 
   # Get your overall cost lower than: 95
   execute(<<-SQL)
+  SELECT
+    DISTINCT
+    cats.name
+  FROM
+    cats
+  JOIN 
+    cattoys
+  ON
+    cattoys.cat_id = cats.id
+  LEFT OUTER JOIN
+    toys
+  ON
+    toys.id = cattoys.toy_id
+  WHERE
+    cats.color = 'Navy Blue';
+
+
+  SELECT
+    DISTINCT
+    cats.name
+  FROM
+    cats
+  LEFT OUTER JOIN
+    cattoys
+  ON
+    cattoys.cat_id = cats.id
+  WHERE
+    cats.color = 'Navy Blue';
 
   SQL
 end
